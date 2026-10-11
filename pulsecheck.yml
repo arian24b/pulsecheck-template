@@ -1,0 +1,25 @@
+# Your monitors. Docs for every key: https://github.com/arian24b/pulsecheck/wiki/YAML-Reference
+# ${NAME} is filled from a GitHub secret of the same name (Settings → Secrets and variables → Actions).
+
+notify:
+  urls:
+    - telegram://${TG_TOKEN}@telegram?chats=${TG_CHAT}
+    # other services: https://github.com/arian24b/pulsecheck/wiki/Notifications
+    # - ntfy://ntfy.sh/${NTFY_TOPIC}
+    # - discord://${DISCORD_TOKEN}@${DISCORD_ID}
+  events: [down, up, degraded, ssl_warn]
+
+defaults:
+  timeout: 10
+  down_after: 2      # alert after 2 failed checks in a row
+  interval: 5        # minutes between checks (the workflow runs every 5)
+
+sites:
+  - name: my-site
+    url: https://example.com        # ← change me
+    ssl_warn_days: 14               # warn 14 days before the certificate expires
+  # - name: api
+  #   url: https://api.example.com/health
+  #   expected_status: [200]
+  #   max_response_ms: 3000
+  # - {name: database, type: tcp, host: db.example.com, port: 5432}
